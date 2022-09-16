@@ -147,7 +147,7 @@ def ffhq256_autoenc():
     conf.eval_every_samples = 10_000_000
     conf.eval_ema_every_samples = 10_000_000
     conf.total_samples = 200_000_000
-    conf.batch_size = 64
+    conf.batch_size = 2#64
     conf.make_model_conf()
     conf.name = 'ffhq256_autoenc'
     return conf

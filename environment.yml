@@ -4,8 +4,8 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-- python=3.7.13
-- pytorch=1.8.1
+- python=3.6.15
+- pytorch=1.7.1
 - torchvision=0.8.2
 - cudatoolkit=11.0
 - pytorch-lightning=1.4.5
@@ -21,4 +21,6 @@ dependencies:
     - lmdb==1.2.1
     - ftfy
     - regex
+    - notebook==6.4.4
+    - matplotlib==3.3.4
 
