@@ -12,6 +12,8 @@ import pandas as pd
 
 import torchvision.transforms.functional as Ftrans
 
+from data_resize_ipace import resize_function
+
 
 class ImageDataset(Dataset):
     def __init__(
@@ -185,6 +187,53 @@ class FFHQlmdb(Dataset):
         assert index < self.length
         index = index + self.offset
         img = self.data[index]
+        if self.transform is not None:
+            img = self.transform(img)
+        return {'img': img, 'index': index}
+
+
+class IPACEDataset(Dataset):
+    def __init__(self,
+                 path=os.path.expanduser('datasets/ipace.lmdb'),
+                 image_size=256,
+                 original_resolution=256,
+                 split=None,
+                 as_tensor: bool = True,
+                 do_augment: bool = True,
+                 do_normalize: bool = True,
+                 **kwargs):
+        self.original_resolution = original_resolution
+
+        exts = ['jpeg']
+        self.data = sorted([p for ext in exts for p in Path(f'{path}').glob(f'**/*.{ext}')])
+        self.data = self.data
+        self.size = 256
+        self.resample_algorithm = Image.LANCZOS
+
+        self.length = len(self.data)
+
+        if split is None:
+            self.offset = 0
+        else:
+            raise NotImplementedError()
+
+        transform = [
+            transforms.Resize(image_size),
+        ]
+        if do_augment:
+            transform.append(transforms.RandomHorizontalFlip())
+        if as_tensor:
+            transform.append(transforms.ToTensor())
+        if do_normalize:
+            transform.append(
+                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)))
+        self.transform = transforms.Compose(transform)
+
+    def __len__(self):
+        return self.length
+
+    def __getitem__(self, index):
+        img = resize_function(self.data[index], self.size, self.resample_algorithm)
         if self.transform is not None:
             img = self.transform(img)
         return {'img': img, 'index': index}

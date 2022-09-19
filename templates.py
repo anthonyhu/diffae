@@ -124,7 +124,7 @@ def ffhq128_ddpm():
 
 def ffhq128_autoenc_base():
     conf = autoenc_base()
-    conf.data_name = 'ffhqlmdb256'
+    conf.data_name = 'ipace'
     conf.scale_up_gpus(4)
     conf.img_size = 128
     conf.net_ch = 128
@@ -147,9 +147,9 @@ def ffhq256_autoenc():
     conf.eval_every_samples = 10_000_000
     conf.eval_ema_every_samples = 10_000_000
     conf.total_samples = 200_000_000
-    conf.batch_size = 2#64
+    conf.batch_size = 2  #64
     conf.make_model_conf()
-    conf.name = 'ffhq256_autoenc'
+    conf.name = 'ipace_autoenc'
     return conf
 
 

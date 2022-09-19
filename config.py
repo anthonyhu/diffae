@@ -20,6 +20,9 @@ from torch.utils.data.distributed import DistributedSampler
 data_paths = {
     'ffhqlmdb256':
     os.path.expanduser('datasets/ffhq256.lmdb'),
+    'ipace':
+    '/mnt/local/datasets/dino_train',
+    #'/home/anthony/datasets/dino_train',
     # used for training a classifier
     'celeba':
     os.path.expanduser('datasets/celeba'),
@@ -286,6 +289,10 @@ class TrainConfig(BaseConfig):
             return FFHQlmdb(path=path or self.data_path,
                             image_size=self.img_size,
                             **kwargs)
+        elif self.data_name == 'ipace':
+            return IPACEDataset(
+                path=path or self.data_path, image_size=self.img_size, **kwargs
+            )
         elif self.data_name == 'horse256':
             return Horse_lmdb(path=path or self.data_path,
                               image_size=self.img_size,

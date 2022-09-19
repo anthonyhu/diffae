@@ -43,6 +43,14 @@ def resize_worker(img_file, sizes, resample):
     return i, idx, out
 
 
+def resize_function(img_file, size, resample):
+    img = Image.open(img_file)
+    img = img.convert("RGB")
+    img = trans_fn.resize(img, size, resample)
+    img = trans_fn.center_crop(img, size)
+    return img
+
+
 def prepare(env,
             paths,
             n_worker,
