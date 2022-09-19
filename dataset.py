@@ -12,7 +12,13 @@ import pandas as pd
 
 import torchvision.transforms.functional as Ftrans
 
-from data_resize_ipace import resize_function
+
+def resize_function(img_file, size, resample):
+    img = Image.open(img_file)
+    img = img.convert("RGB")
+    img = Ftrans.resize(img, size, resample)
+    img = Ftrans.center_crop(img, size)
+    return img
 
 
 class ImageDataset(Dataset):
